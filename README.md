@@ -1,58 +1,58 @@
-# 🚀 Projet d'Apprentissage Automatique : Prédiction de la Souscription de Produits de Voyage
+# 🚀 Machine Learning Project: Travel Product Subscription Prediction
 
-## 🎯 Objectif du Projet
-L'objectif principal de ce projet est d'analyser les données de clients potentiels pour un produit de voyage et de développer un modèle de classification robuste capable de prédire si un client est susceptible de **souscrire au produit** (`ProdTaken`). Le projet met l'accent sur la rigueur du pipeline MLOps et la gestion du déséquilibre de classe.
+## 🎯 Project Goal
+The primary objective of this project is to analyze customer data for a travel product and develop a robust classification model capable of predicting whether a client is likely to **subscribe to the product** (`ProdTaken`). The project emphasizes rigorous MLOps pipeline practices and effective handling of class imbalance.
 
-## 🛠️ Stack Technique et Bibliothèques
-| Composant | Outil / Librairie |
+## 🛠️ Technical Stack and Libraries
+| Component | Tool / Library |
 | :--- | :--- |
-| **Langage** | Python 3.x |
-| **Analyse** | Pandas, NumPy |
-| **Visualisation** | Matplotlib, Seaborn |
-| **Modélisation** | Scikit-learn (SVC, RF, DT, AdaBoost) |
-| **Optimisation** | RandomizedSearchCV, ColumnTransformer |
+| **Language** | Python 3.x |
+| **Analysis** | Pandas, NumPy |
+| **Visualization** | Matplotlib, Seaborn |
+| **Modeling** | Scikit-learn (SVC, RF, DT, AdaBoost) |
+| **Optimization** | RandomizedSearchCV, ColumnTransformer |
 
 ---
 
-## 🗺️ Pipeline de Modélisation (Étapes Clés)
+## 🗺️ Modeling Pipeline (Key Steps)
 
-### 1. 🔍 Analyse Exploratoire et Préparation des Données
+### 1. 🔍 Exploratory Data Analysis & Data Preparation
 
-* **Nettoyage & Imputation :**
-    * Correction des incohérences ('Fe Male' → 'Female', 'Unmarried' → 'Single').
-    * Imputation stratégique : **Médiane** pour les variables numériques sensibles aux *outliers*, **Mode** pour les variables catégorielles.
-* **Ingénierie des Caractéristiques :** Création de nouvelles variables clés pour améliorer la puissance prédictive : `Income_Per_Person`, `Engagement_Score`, `Total_visiting`, etc.
-* **Corrélation :** Analyse par Heatmap pour identifier et gérer la multicolinéarité.
+* **Cleaning & Imputation:**
+    * Correction of textual inconsistencies ('Fe Male' → 'Female', 'Unmarried' → 'Single').
+    * Strategic Imputation: **Median** for numerical variables sensitive to outliers, **Mode** for categorical variables.
+* **Feature Engineering:** Creation of key informative variables to boost predictive power: `Income_Per_Person`, `Engagement_Score`, `Total_visiting`, etc.
+* **Correlation:** Analysis via Heatmap to identify and manage multicollinearity.
 
-### 2. 🛡️ Gestion du Déséquilibre et Prétraitement
+### 2. 🛡️ Imbalance Handling and Preprocessing
 
-* **Déséquilibre :** La variable cible (`ProdTaken`) présente un déséquilibre important.
-* **Division Stratifiée :** Les données ont été divisées en ensembles d'entraînement et de test (80/20) en utilisant la **stratification** pour maintenir la proportion des classes dans les deux ensembles.
-* **Pipeline de Prétraitement :** Mise en place d'un `ColumnTransformer` pour garantir l'absence de *Data Leakage* :
-    * **Numérique :** `StandardScaler` (Normalisation).
-    * **Catégorielle :** `OneHotEncoder`.
+* **Imbalance:** The target variable (`ProdTaken`) shows significant class imbalance.
+* **Stratified Split:** Data was divided into training and testing sets (80/20) using **stratification** to maintain class proportion consistency.
+* **Preprocessing Pipeline:** A `ColumnTransformer` was implemented to ensure zero *Data Leakage*:
+    * **Numerical:** `StandardScaler` (Normalization).
+    * **Categorical:** `OneHotEncoder`.
 
-### 3. ⚖️ Entraînement, Évaluation & Optimisation
+### 3. ⚖️ Training, Evaluation & Optimization
 
-* **Évaluation Initiale :** Plusieurs modèles de classification ont été évalués (Logistic Regression, SVC, RF, DT, AdaBoost).
-    * **Métrique Clé :** Le **F1-score pondéré** a été choisi comme métrique principale en raison du déséquilibre des classes.
-* **Tuning des Hyperparamètres :** Les meilleurs modèles (Random Forest et Decision Tree) ont été sélectionnés pour l'optimisation.
-    * Utilisation de `RandomizedSearchCV` pour trouver les meilleurs hyperparamètres de manière **efficace en temps**.
+* **Initial Evaluation:** Multiple classification models were assessed (Logistic Regression, SVC, RF, DT, AdaBoost).
+    * **Key Metric:** The **weighted F1-score** was chosen as the primary metric due to class imbalance.
+* **Hyperparameter Tuning:** The best-performing models (Random Forest and Decision Tree) were selected for optimization.
+    * Used `RandomizedSearchCV` for **time-efficient** yet effective hyperparameter search.
 
-### 4. 📈 Résultats et Analyse Finale
+### 4. 📈 Results and Final Analysis
 
-| Modèle Optimisé | Métrique d'Optimisation | **F1-Score Final (Test)** | **Classement** |
+| Optimized Model | Optimization Metric | **Final F1-Score (Test)** | **Ranking** |
 | :--- | :--- | :--- | :--- |
-| **Optimized Random Forest** | F1-Score (CV) : ~0.78 | **[Score Final Obtenu]** | 🥇 Meilleur Modèle |
-| Optimized Decision Tree | F1-Score (CV) : ~0.68 | [Score Final Obtenu] | 🥈 Second Meilleur |
+| **Optimized Random Forest** | F1-Score (CV): ~0.78 | **[Final Score Obtained]** | 🥇 Best Model |
+| Optimized Decision Tree | F1-Score (CV): ~0.68 | [Final Score Obtained] | 🥈 Second Best |
 
 ---
 
-## 💡 Interprétabilité et Conclusion
+## 💡 Interpretability and Conclusion
 
-* **Meilleur Modèle :** Le **Random Forest Optimisé** a démontré la meilleure capacité de généralisation.
-* **Analyse de l'Importance des Caractéristiques :**
-    * Cette étape a permis d'identifier les variables qui ont le plus d'impact sur la décision de souscription (e.g., `MonthlyIncome`, `Passport`, `Engagement_Score`). Ces informations sont directement exploitables par l'équipe marketing.
-* **Évaluation ROC/AUC :** Une analyse approfondie a été réalisée via la **Courbe ROC** et le **Score AUC** pour confirmer la robustesse du modèle indépendamment du seuil de classification.
+* **Best Model:** The **Optimized Random Forest** demonstrated the strongest generalization capability.
+* **Feature Importance Analysis:**
+    * This step identified the variables that have the most significant impact on the subscription decision (e.g., `MonthlyIncome`, `Passport`, `Engagement_Score`). This information is directly actionable for the marketing team.
+* **ROC/AUC Evaluation:** In-depth analysis was performed using the **ROC Curve** and the **AUC Score** to confirm the model's robustness independent of the classification threshold.
 
-> **Conclusion :** Le pipeline a produit un modèle robuste (Random Forest) capable de prédire la souscription avec une grande fiabilité, fournissant des leviers d'action clairs pour l'engagement client.
+> **Conclusion:** The pipeline successfully produced a robust Random Forest model capable of predicting subscription with high reliability, providing clear actionable insights for customer engagement.
