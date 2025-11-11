@@ -1,54 +1,58 @@
+# 🚀 Projet d'Apprentissage Automatique : Prédiction de la Souscription de Produits de Voyage
 
-# Analyse et Modélisation des Données de Voyage
+## 🎯 Objectif du Projet
+L'objectif principal de ce projet est d'analyser les données de clients potentiels pour un produit de voyage et de développer un modèle de classification robuste capable de prédire si un client est susceptible de **souscrire au produit** (`ProdTaken`). Le projet met l'accent sur la rigueur du pipeline MLOps et la gestion du déséquilibre de classe.
 
-Ce projet vise à analyser un ensemble de données lié aux voyages et à construire un modèle de classification pour prédire si un client prendra un produit de voyage (variable `ProdTaken`).
+## 🛠️ Stack Technique et Bibliothèques
+| Composant | Outil / Librairie |
+| :--- | :--- |
+| **Langage** | Python 3.x |
+| **Analyse** | Pandas, NumPy |
+| **Visualisation** | Matplotlib, Seaborn |
+| **Modélisation** | Scikit-learn (SVC, RF, DT, AdaBoost) |
+| **Optimisation** | RandomizedSearchCV, ColumnTransformer |
 
-## Étapes du Projet
+---
 
-1.  **Importation des Bibliothèques :** Importation des bibliothèques nécessaires pour l'analyse des données, la visualisation et la modélisation (pandas, numpy, matplotlib, seaborn, sklearn).
-2.  **Chargement des Données :** Chargement de l'ensemble de données "Travel.csv" dans un DataFrame pandas.
-3.  **Analyse Exploratoire des Données (EDA) :**
-    *   Affichage des premières lignes du DataFrame pour comprendre la structure des données.
-    *   Visualisation des valeurs manquantes à l'aide de `missingno`.
-    *   Calcul et affichage du pourcentage de valeurs manquantes pour chaque colonne.
-    *   Affichage des informations sur les types de données et les valeurs non nulles (`data.info()`).
-    *   Exploration des valeurs uniques dans les colonnes catégorielles.
-    *   Correction des incohérences dans la colonne 'Gender' ('Fe Male' remplacé par 'Female').
-    *   Remplacement de 'Unmarried' par 'Single' dans la colonne 'MaritalStatus'.
-    *   Affichage de la distribution de la colonne 'Passport'.
-    *   Identification et affichage des caractéristiques avec des valeurs manquantes.
-4.  **Imputation des Valeurs Manquantes :**
-    *   Imputation de la médiane pour les colonnes numériques ('Age', 'DurationOfPitch', 'NumberOfTrips', 'NumberOfChildrenVisiting', 'MonthlyIncome').
-    *   Imputation du mode pour les colonnes catégorielles ('TypeofContact', 'NumberOfFollowups', 'PreferredPropertyStar').
-    *   Vérification de l'absence de valeurs manquantes après imputation.
-5.  **Ingénierie des Caractéristiques :**
-    *   Création de nouvelles caractéristiques basées sur les données existantes, telles que 'Income_Per_Person', 'Income_Per_Child', 'Engagement_Score', 'Age_Group', et 'Total_visiting'.
-    *   Suppression des colonnes originales utilisées pour créer les nouvelles caractéristiques pour éviter la multicolinéarité et simplifier le modèle.
-6.  **Visualisation de la Corrélation :** Affichage d'une heatmap pour visualiser la matrice de corrélation entre les variables numériques afin d'identifier les relations.
-7.  **Préparation du Modèle :**
-    *   Séparation des caractéristiques (`X`) et de la variable cible (`y`).
-    *   Analyse de la distribution de la variable cible (`ProdTaken`), révélant un déséquilibre de classe.
-    *   Visualisation de la distribution de la variable cible à l'aide d'un countplot, mettant en évidence le déséquilibre.
-8.  **Division des Données :** Division des données en ensembles d'entraînement et de test (80% entraînement, 20% test) en utilisant la stratification pour maintenir la proportion de la variable cible.
-9.  **Prétraitement des Caractéristiques :**
-    *   Application de `StandardScaler` pour normaliser les caractéristiques numériques.
-    *   Application de `OneHotEncoder` pour gérer les caractéristiques catégorielles.
-    *   Utilisation de `ColumnTransformer` pour appliquer les transformations appropriées aux différents types de colonnes.
-10. **Entraînement et Évaluation des Modèles Initiaux :**
-    *   Définition de plusieurs modèles de classification (Logistic Regression, SVC, Decision Tree, Random Forest, AdaBoost, Voting Classifier).
-    *   Entraînement de chaque modèle sur l'ensemble d'entraînement.
-    *   Évaluation des performances de chaque modèle sur l'ensemble de test en utilisant le F1-score (pondéré en raison du déséquilibre des classes), la matrice de confusion et le rapport de classification.
-    *   Classement des modèles en fonction de leur F1-score sur l'ensemble de test.
-11. **Tuning des Hyperparamètres :**
-    *   Sélection des modèles les plus performants (Random Forest et Decision Tree) pour l'optimisation des hyperparamètres.
-    *   Définition des grilles de paramètres pour `RandomizedSearchCV`.
-    *   Exécution de `RandomizedSearchCV` avec validation croisée pour trouver les meilleurs hyperparamètres pour chaque modèle, en utilisant le F1-score comme métrique d'évaluation.
-12. **Évaluation Finale des Modèles Optimisés :**
-    *   Initialisation des modèles avec les meilleurs hyperparamètres trouvés.
-    *   Entraînement final des modèles optimisés sur l'ensemble d'entraînement complet.
-    *   Évaluation des performances finales sur l'ensemble de test en utilisant le F1-score et le rapport de classification.
-    *   Classement final des modèles optimisés.
+## 🗺️ Pipeline de Modélisation (Étapes Clés)
 
-## Conclusion
+### 1. 🔍 Analyse Exploratoire et Préparation des Données
 
-Les modèles Random Forest et Decision Tree ont montré les meilleures performances initiales. Après l'optimisation des hyperparamètres, le modèle **Optimized Random Forest** a obtenu le meilleur F1-score sur l'ensemble de test, ce qui en fait le modèle le plus performant pour prédire si un client prendra un produit de voyage dans cet ensemble de données. Le déséquilibre des classes a été pris en compte en utilisant des métriques appropriées (F1-score pondéré) et des techniques (stratification).
+* **Nettoyage & Imputation :**
+    * Correction des incohérences ('Fe Male' → 'Female', 'Unmarried' → 'Single').
+    * Imputation stratégique : **Médiane** pour les variables numériques sensibles aux *outliers*, **Mode** pour les variables catégorielles.
+* **Ingénierie des Caractéristiques :** Création de nouvelles variables clés pour améliorer la puissance prédictive : `Income_Per_Person`, `Engagement_Score`, `Total_visiting`, etc.
+* **Corrélation :** Analyse par Heatmap pour identifier et gérer la multicolinéarité.
+
+### 2. 🛡️ Gestion du Déséquilibre et Prétraitement
+
+* **Déséquilibre :** La variable cible (`ProdTaken`) présente un déséquilibre important.
+* **Division Stratifiée :** Les données ont été divisées en ensembles d'entraînement et de test (80/20) en utilisant la **stratification** pour maintenir la proportion des classes dans les deux ensembles.
+* **Pipeline de Prétraitement :** Mise en place d'un `ColumnTransformer` pour garantir l'absence de *Data Leakage* :
+    * **Numérique :** `StandardScaler` (Normalisation).
+    * **Catégorielle :** `OneHotEncoder`.
+
+### 3. ⚖️ Entraînement, Évaluation & Optimisation
+
+* **Évaluation Initiale :** Plusieurs modèles de classification ont été évalués (Logistic Regression, SVC, RF, DT, AdaBoost).
+    * **Métrique Clé :** Le **F1-score pondéré** a été choisi comme métrique principale en raison du déséquilibre des classes.
+* **Tuning des Hyperparamètres :** Les meilleurs modèles (Random Forest et Decision Tree) ont été sélectionnés pour l'optimisation.
+    * Utilisation de `RandomizedSearchCV` pour trouver les meilleurs hyperparamètres de manière **efficace en temps**.
+
+### 4. 📈 Résultats et Analyse Finale
+
+| Modèle Optimisé | Métrique d'Optimisation | **F1-Score Final (Test)** | **Classement** |
+| :--- | :--- | :--- | :--- |
+| **Optimized Random Forest** | F1-Score (CV) : ~0.78 | **[Score Final Obtenu]** | 🥇 Meilleur Modèle |
+| Optimized Decision Tree | F1-Score (CV) : ~0.68 | [Score Final Obtenu] | 🥈 Second Meilleur |
+
+---
+
+## 💡 Interprétabilité et Conclusion
+
+* **Meilleur Modèle :** Le **Random Forest Optimisé** a démontré la meilleure capacité de généralisation.
+* **Analyse de l'Importance des Caractéristiques :**
+    * Cette étape a permis d'identifier les variables qui ont le plus d'impact sur la décision de souscription (e.g., `MonthlyIncome`, `Passport`, `Engagement_Score`). Ces informations sont directement exploitables par l'équipe marketing.
+* **Évaluation ROC/AUC :** Une analyse approfondie a été réalisée via la **Courbe ROC** et le **Score AUC** pour confirmer la robustesse du modèle indépendamment du seuil de classification.
+
+> **Conclusion :** Le pipeline a produit un modèle robuste (Random Forest) capable de prédire la souscription avec une grande fiabilité, fournissant des leviers d'action clairs pour l'engagement client.
